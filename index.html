@@ -23,7 +23,11 @@
 		var count = 0;
 		var beep1 = new Audio('beep-1.mp3');
 		var beep2 = new Audio('countdown.mp3');
+
 		function startCountdown() {
+			var startButton = document.getElementById("startButton");
+			startButton.style.display = "none"; // hide start button
+
 			var seconds;
 			if (count % 2 == 0) {
 				seconds = 15;
@@ -31,6 +35,7 @@
 				seconds = 240;
 			}
 			count++;
+
 			var countdownTimer = setInterval(function() {
 				seconds--;
 				if (seconds == 60) {
@@ -41,12 +46,13 @@
 				if (seconds <= 0) {
 					clearInterval(countdownTimer);
 					document.getElementById("countdown").textContent = "00:00";
-					startCountdown();
+					startCountdown(); // start a new countdown
 				} else {
 					document.getElementById("countdown").textContent = secondsToHms(seconds);
 				}
 			}, 1000);
 		}
+
 		function secondsToHms(seconds) {
 			var h = Math.floor(seconds / 3600);
 			var m = Math.floor(seconds % 3600 / 60);
@@ -55,11 +61,14 @@
 			if (m < 0) m = 0;
 			return ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
 		}
-		function playSound(soundFile) {
-			var sound = new Audio(soundFile);
-			sound.play();
-		}
-		window.onload = startCountdown;
+
+		window.onload = function() {
+			var startButton = document.createElement("button");
+			startButton.id = "startButton";
+			startButton.textContent = "Start";
+			startButton.onclick = startCountdown;
+			document.body.appendChild(startButton); // add start button to the page
+		};
 	</script>
 </head>
 <body>
